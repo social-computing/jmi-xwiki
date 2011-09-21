@@ -23,6 +23,18 @@
                                 AND tags.XWL_NAME = 'tags'
                                 </JDBC-query2>
 			</JDBC-default-classifier>
+			
+			<JDBC-property name="Tag properties" column-name="label">
+				<JDBC-query2>
+				SELECT tags.XWL_VALUE as id, tags.XWL_VALUE as name
+				FROM xwikiobjects as objects
+                                JOIN xwikilistitems as tags
+                                ON objects.XWO_ID = tags.XWL_ID
+                                WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                AND tags.XWL_NAME = 'tags'
+                                AND tags.XWL_VALUE = {scurEntity}
+				</JDBC-query2>
+			</JDBC-property>
 
 			<JDBC-affinity-reader name="JDBC_AffReader">
 				<comment>Affinity Group for a tag (=obtenir a partir d'un tag les autres tags (et leur nombre) presents dans les articles ou le tag specifie est present ?)</comment>
