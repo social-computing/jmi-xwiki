@@ -13,25 +13,16 @@
 				</JNDI-data-source>
 			</JDBC-connection>
 	
-	
 			<JDBC-default-classifier>
 				<JDBC-query2>
-				SELECT DISTINCT tags.XWL_VALUE FROM 
-                                xwikiobjects as objects
+				SELECT DISTINCT tags.XWL_VALUE
+				FROM xwikiobjects as objects
                                 JOIN xwikilistitems as tags
                                 ON objects.XWO_ID = tags.XWL_ID
                                 WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
                                 AND tags.XWL_NAME = 'tags'
                                 </JDBC-query2>
 			</JDBC-default-classifier>
-	
-	                
-			<JDBC-property name="Tag properties" column-name="label">
-			        <comment>A enlever</comment>
-				<JDBC-query2>
-				SELECT {scurEntity}
-                                </JDBC-query2>
-			</JDBC-property>
 
 			<JDBC-affinity-reader name="JDBC_AffReader">
 				<comment>Affinity Group for a tag (=obtenir a partir d'un tag les autres tags (et leur nombre) presents dans les articles ou le tag specifie est present ?)</comment>
@@ -70,6 +61,7 @@
 				</JDBC-query2>
 			</JDBC-affinity-reader>
 
+
 			<JDBC-affinity-reader name="JDBC_GlobalAffReader">
 				<comment>Global Affinity Group</comment>
 				<JDBC-query2>
@@ -82,27 +74,42 @@
 				</JDBC-query2>
 			</JDBC-affinity-reader>
 	
+	                <!-- Attribute = node = page -->
 			<JDBC-attributes name="JDBC_Profile">
-				<comment>Page attributes (Get page attributes = tags for one page)</comment>
+				<comment>Page attributes (Get tag attributes (nodes) = pages for one tag)</comment>
 				<JDBC-query2>
-					SELECT XWL_VALUE as tag, count(XWL_VALUE) as c FROM xwikilistitems 
-                                	JOIN xwikiobjects
-                                	ON XWO_ID = XWL_ID
-	                                WHERE XWO_CLASSNAME = 'XWiki.TagClass'
-                                	AND XWL_NAME = 'tags'
-	                                AND XWO_NAME = {scurEntity}
-	                                GROUP BY tag
+				        SELECT objects.XWO_NAME as name, count(objects.XWO_NAME) 
+                                        FROM xwikiobjects as objects
+                                        JOIN xwikilistitems as tags
+                                        ON objects.XWO_ID = tags.XWL_ID
+                                        JOIN xwikiobjects as tobjects
+                                        ON tags.XWL_ID = tobjects.XWO_ID
+                                        WHERE tags.XWL_NAME = 'tags'
+                                        AND tobjects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                        AND tags.XWL_VALUE = {scurEntity}
+                                        GROUP BY name
 				</JDBC-query2>
-	
-				<JDBC-property name="Tags properties" column-name="label" >
+				
+                                <!-- Version simple -->
+				<JDBC-property name="Page properties" column-name="label" >
 					<JDBC-query2>
-                                        SELECT {scurAttribute}
+					SELECT XWO_NAME as id, XWO_NAME as name
+                                        FROM xwikiobjects
+                                        WHERE XWO_CLASSNAME = 'ExtensionCode.ExtensionClass'
+                                        AND XWO_NAME = {scurAttribute}
 					</JDBC-query2>
 				</JDBC-property>
 
-				<JDBC-property name="Belong to properties" column-name="label" multiple-rows="yes" >
+                                <!-- Avoir tous les tags de la page -->
+				<JDBC-property name="Page Belong to properties" column-name="label" multiple-rows="yes" >
 					<JDBC-query2>
-					SELECT 'poss_id', 'poss_name'
+					SELECT tags.XWL_VALUE as poss_id, tags.XWL_VALUE as poss_name
+					FROM xwikilistitems as tags
+                                        JOIN xwikiobjects
+                                        ON XWO_ID = XWL_ID
+                                        WHERE XWO_CLASSNAME = 'XWiki.TagClass'
+                                        AND XWL_NAME = 'tags'
+                                        AND XWO_NAME = {scurAttribute}
 					</JDBC-query2>
 				</JDBC-property>
 			</JDBC-attributes>
@@ -173,7 +180,7 @@
 		</entities-recommendation>
 	</analysis-profile>
 
-	<display-profile name="Display" display-empty-links="no" in-color="ffffff" out-color="0" filter-color="56b2ff" >
+	<display-profile name="Display" display-empty-links="no" in-color="ffffff" out-color="0" filter-color="56b2ff">
 		<swatch-segmentation>
 			<attribute-swatch>
 				<norm-swatch default-ref="XWIKI_NODE_NORM" />
@@ -191,7 +198,7 @@
 		<selection-swatch name="search" />
 	</display-profile>
 
-	<display-profile name="GlobalDisplay" display-empty-links="no" display-fake-links="no" in-color="ffffff" out-color="0" filter-color="56b2ff" >
+	<display-profile name="GlobalDisplay" display-empty-links="no" display-fake-links="no" in-color="ffffff" out-color="0" filter-color="56b2ff">
 		<swatch-segmentation>
 			<attribute-swatch>
 				<norm-swatch default-ref="XWIKI_NODE_NORM" />
@@ -210,14 +217,13 @@
 	</display-profile>
 
 	<segmentation>
-		<analysis-segmentation  default-ref="Profile" />
-		<affinity-reader-segmentation default-ref="AffReader" >
+		<analysis-segmentation default-ref="Profile" />
+		<affinity-reader-segmentation default-ref="AffReader">
 			<affreader-analysis-mapping analysis-ref="DiscoveryProfile" default-ref="DiscoveryAffReader" />
 			<affreader-analysis-mapping analysis-ref="GlobalProfile" default-ref="GlobalAffReader" />
 		</affinity-reader-segmentation>
-		<display-segmentation default-ref="Display" >
+		<display-segmentation default-ref="Display">
 			<display-analysis-mapping analysis-ref="GlobalProfile" default-ref="GlobalDisplay" />
 		</display-segmentation>
 	</segmentation>
-	
 </dictionary>
