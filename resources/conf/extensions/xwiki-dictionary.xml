@@ -15,8 +15,8 @@
 	
 			<JDBC-default-classifier>
 				<JDBC-query2>
-				SELECT DISTINCT tags.XWL_VALUE
-				FROM xwikiobjects as objects
+				SELECT DISTINCT tags.XWL_VALUE FROM 
+                                xwikiobjects as objects
                                 JOIN xwikilistitems as tags
                                 ON objects.XWO_ID = tags.XWL_ID
                                 WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
