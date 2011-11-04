@@ -36,7 +36,10 @@
     </event>
     
     <menu id="menu" font="menuFnt">
-        <item label="[sREC_NAME]" url="javascript:Discover([sREC_ID],[sREC_NAME])" />
+        <menu id="submenu" label="[sREC_NAME]" font="menuFnt">
+            <item label="Afficher la page" url="javascript:DisplayExtension([sREC_NAME])" />
+            <item label="Afficher sur la carte" url="javascript:NewWin([sREC_ID],[sREC_NAME])" />
+        </menu>
     </menu>
 
     <font id="menuFnt" name="Monospaced" size="11" style="plain" />

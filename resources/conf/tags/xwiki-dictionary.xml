@@ -103,7 +103,7 @@
 			<JDBC-attributes name="JDBC_Profile">
 				<comment>Attibutes definition : tags for a selected extension ?</comment>
 				<JDBC-query2>
-                                        SELECT tags.XWL_VALUE as id, count(tags.XWL_VALUE)
+                                        SELECT tags.XWL_VALUE as id, 1
                                         FROM xwikilistitems as tags
                                         JOIN xwikiobjects as tobjects
                                         ON tobjects.XWO_ID = tags.XWL_ID
