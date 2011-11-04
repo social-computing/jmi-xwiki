@@ -31,7 +31,6 @@
 			</JDBC-default-classifier>
 			
 			<!-- Get properties for one entity -->
-			<!-- Todo ADD some properties or remove -->
 			<JDBC-property name="Extenstion properties" column-name="label">
 				<JDBC-query2>
 				        SELECT objects.XWO_ID as id, objects.XWO_NAME as name
@@ -46,7 +45,7 @@
 				</JDBC-query2>
 			</JDBC-property>
 
-                        <!-- Affinity group -->	
+                        <!-- Affinity group -->
 			<JDBC-affinity-reader name="JDBC_AffReader">
 				<comment>Affinity Group : get the extensions which share the same tags as the selected extension (weight = 1)</comment>
 				<JDBC-query2>

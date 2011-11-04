@@ -5,14 +5,17 @@
 <dictionary name="xwiki" >
 	<comment>XWiki dictionary</comment>
 	
+	<!-- entities definitions (links) -->
 	<entities>
-		<JDBC-entities name="xwiki entities">		
+		<JDBC-entities name="xwiki entities">
+		        <!-- Source connection configuration -->
 			<JDBC-connection catalog="xwiki" >
 				<JNDI-data-source>
 					<url>java:comp/env/jdbc/xwiki</url>
 				</JNDI-data-source>
 			</JDBC-connection>
-	
+
+                        <!-- Select all entities : get all tags -->
 			<JDBC-default-classifier>
 				<JDBC-query2>
 				SELECT DISTINCT tags.XWL_VALUE FROM 
@@ -23,7 +26,8 @@
                                 AND tags.XWL_NAME = 'tags'
                                 </JDBC-query2>
 			</JDBC-default-classifier>
-			
+
+			<!-- Get properties for one entity -->
 			<JDBC-property name="Tag properties" column-name="label">
 				<JDBC-query2>
 				SELECT tags.XWL_VALUE as id, tags.XWL_VALUE as name
@@ -36,8 +40,9 @@
 				</JDBC-query2>
 			</JDBC-property>
 
+                        <!-- Affinity group -->
 			<JDBC-affinity-reader name="JDBC_AffReader">
-				<comment>Affinity Group for a tag (=obtenir a partir d'un tag les autres tags (et leur nombre) presents dans les articles ou le tag specifie est present ?)</comment>
+        			<comment>Affinity Group : get the tags which share the same extensions as the selected tag (weight = 1)</comment>
 				<JDBC-query2>
                                 SELECT tags.XWL_VALUE, count(tags.XWL_VALUE) FROM xwikilistitems as l
                                 JOIN xwikiobjects as objects
@@ -52,8 +57,9 @@
 				</JDBC-query2>
 			</JDBC-affinity-reader>
 
+                        <!-- Discovery group -->
 			<JDBC-affinity-reader name="JDBC_DiscoveryAffReader">
-				<comment>Discovery Group for a user (=obtenir a partir d'une page la liste des tags et leur compte. Leur compte etant le nombre de pages dans lesquels ils apparaissent)</comment>
+        			<comment>Discovery Group : for a selected extension get the tags and the number of tags</comment>
 				<JDBC-query2>
 				SELECT XWL_VALUE as tag, 
                                 (
@@ -73,12 +79,12 @@
 				</JDBC-query2>
 			</JDBC-affinity-reader>
 
-
+                        <!-- Global group -->
 			<JDBC-affinity-reader name="JDBC_GlobalAffReader">
-				<comment>Global Affinity Group</comment>
+			        <comment>Global group : get all tags</comment>
 				<JDBC-query2>
-			                SELECT tags.XWL_VALUE, 1 FROM 
-                                        xwikiobjects as objects
+			                SELECT tags.XWL_VALUE, 1 
+			                FROM xwikiobjects as objects
                                         JOIN xwikilistitems as tags
                                         ON objects.XWO_ID = tags.XWL_ID
                                         WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
@@ -86,9 +92,9 @@
 				</JDBC-query2>
 			</JDBC-affinity-reader>
 	
-	                <!-- Attribute = node = page -->
+	                <!-- Attributes definition (nodes) -->
 			<JDBC-attributes name="JDBC_Profile">
-				<comment>Page attributes (Get tag attributes (nodes) = pages for one tag)</comment>
+			        <comment>Attibutes definition : extensions for a selected tags ?</comment>
 				<JDBC-query2>
 				        SELECT objects.XWO_NAME as name, count(objects.XWO_NAME) 
                                         FROM xwikiobjects as objects
@@ -102,8 +108,8 @@
                                         GROUP BY name
 				</JDBC-query2>
 				
-                                <!-- Version simple -->
-				<JDBC-property name="Page properties" column-name="label" >
+				<JDBC-property name="Attribute properties" column-name="label">
+				        <comment>Attribute properties : list of all properties for an extension</comment>
 					<JDBC-query2>
 					SELECT XWO_NAME as id, XWO_NAME as name
                                         FROM xwikiobjects
@@ -112,8 +118,8 @@
 					</JDBC-query2>
 				</JDBC-property>
 
-                                <!-- Avoir tous les tags de la page -->
-				<JDBC-property name="Page Belong to properties" column-name="label" multiple-rows="yes" >
+				<JDBC-property name="Belong to properties" multiple-rows="yes" column-name="label">
+        				<comment>Attribute properties : list of all tags for an extension</comment>
 					<JDBC-query2>
 					SELECT tags.XWL_VALUE as poss_id, tags.XWL_VALUE as poss_name
 					FROM xwikilistitems as tags
@@ -125,7 +131,6 @@
 					</JDBC-query2>
 				</JDBC-property>
 			</JDBC-attributes>
-			
 		</JDBC-entities>
 	</entities>
 	
