@@ -18,7 +18,7 @@
                 	<!-- Select all entities : extensions that are tagged -->
 			<JDBC-default-classifier>
 				<JDBC-query2>
-                                        SELECT objects.XWO_ID as id, objects.XWO_NAME as name
+                                        SELECT objects.XWO_ID as id, SUBSTRING(objects.XWO_NAME FROM 11) as name
                                         FROM xwikiobjects as objects
                                         JOIN xwikilistitems as tags
                                         ON tags.XWL_ID = objects.XWO_ID
@@ -33,7 +33,7 @@
 			<!-- Get properties for one entity -->
 			<JDBC-property name="Extenstion properties" column-name="label">
 				<JDBC-query2>
-				        SELECT objects.XWO_ID as id, objects.XWO_NAME as name
+				        SELECT objects.XWO_ID as id, SUBSTRING(objects.XWO_NAME FROM 11) as name
                                         FROM xwikiobjects as objects
                                         JOIN xwikilistitems as tags
                                         ON tags.XWL_ID = objects.XWO_ID
@@ -127,7 +127,7 @@
                                 <JDBC-property name="Belong to properties" multiple-rows="yes" column-name="label">
                                         <comment>Attribute properties : list of all extensions for a tag</comment>
 					<JDBC-query2>
-                                                SELECT objects.XWO_ID as poss_id, objects.XWO_NAME as poss_name
+                                                SELECT objects.XWO_ID as poss_id, SUBSTRING(objects.XWO_NAME FROM 11) as poss_name
                                                 FROM xwikiobjects AS objects
                                                 JOIN xwikilistitems AS tags ON objects.XWO_ID = tags.XWL_ID
                                                 JOIN xwikiobjects AS tobjects ON tags.XWL_ID = tobjects.XWO_ID

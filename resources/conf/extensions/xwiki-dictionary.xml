@@ -75,7 +75,7 @@
                                 ON XWO_ID = XWL_ID
                                 WHERE XWO_CLASSNAME = 'XWiki.TagClass'
                                 AND XWL_NAME = 'tags'
-                                AND XWO_NAME = {s$attributeId}
+                                AND XWO_ID = {i$attributeId}
 				</JDBC-query2>
 			</JDBC-affinity-reader>
 
@@ -95,8 +95,48 @@
 	                <!-- Attributes definition (nodes) -->
 			<JDBC-attributes name="JDBC_Profile">
 			        <comment>Attibutes definition : extensions for a selected tags ?</comment>
+				<JDBC-query2>				
+				        SELECT objects.XWO_ID as id, count(objects.XWO_ID)
+                                        FROM xwikiobjects as objects
+                                        JOIN xwikilistitems as tags
+                                        ON objects.XWO_ID = tags.XWL_ID
+                                        JOIN xwikiobjects as tobjects
+                                        ON tags.XWL_ID = tobjects.XWO_ID
+                                        WHERE tags.XWL_NAME = 'tags'
+                                        AND tobjects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                        AND tags.XWL_VALUE = {scurEntity}
+                                        GROUP BY id
+				</JDBC-query2>
+				
+				<JDBC-property name="Attribute properties" column-name="label">
+				        <comment>Attribute properties : list of all properties for an extension</comment>
+					<JDBC-query2>
+					SELECT XWO_ID as id, SUBSTRING(XWO_NAME FROM 11) as name
+                                        FROM xwikiobjects
+                                        WHERE XWO_ID = {icurAttribute}
+					</JDBC-query2>
+				</JDBC-property>
+
+				<JDBC-property name="Belong to properties" multiple-rows="yes" column-name="label">
+        				<comment>Attribute properties : list of all tags for an extension</comment>
+					<JDBC-query2>
+                                        SELECT tags.XWL_VALUE as poss_id, tags.XWL_VALUE as poss_name
+                                        FROM xwikilistitems as tags
+                                        JOIN xwikiobjects as tobjects
+                                        ON tobjects.XWO_ID = tags.XWL_ID
+                                        WHERE tobjects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                        AND tags.XWL_NAME = 'tags'
+                                        AND tobjects.XWO_ID = {icurAttribute}
+					</JDBC-query2>
+				</JDBC-property>
+			</JDBC-attributes>
+			
+			
+			
+			<JDBC-attributes name="JDBC_Profile">
+			        <comment>Attibutes definition : extensions for a selected tags ?</comment>
 				<JDBC-query2>
-				        SELECT objects.XWO_NAME as name, count(objects.XWO_NAME) 
+				        SELECT SUBSTRING(objects.XWO_NAME FROM 11) as name, count(objects.XWO_NAME) 
                                         FROM xwikiobjects as objects
                                         JOIN xwikilistitems as tags
                                         ON objects.XWO_ID = tags.XWL_ID
@@ -108,7 +148,7 @@
                                         GROUP BY name
 				</JDBC-query2>
 				
-				<JDBC-property name="Attribute properties" column-name="label">
+				<JDBC-property name="Attribute properties" column-name="label" apply="all" multiple-rows="no" columns-used="-1" use-id1="no" use-id2="no">
 				        <comment>Attribute properties : list of all properties for an extension</comment>
 					<JDBC-query2>
 					SELECT XWO_NAME as id, XWO_NAME as name
@@ -118,7 +158,7 @@
 					</JDBC-query2>
 				</JDBC-property>
 
-				<JDBC-property name="Belong to properties" multiple-rows="yes" column-name="label">
+				<JDBC-property name="Belong to properties" multiple-rows="yes" column-name="label" apply="all" columns-used="-1" use-id1="no" use-id2="no">
         				<comment>Attribute properties : list of all tags for an extension</comment>
 					<JDBC-query2>
 					SELECT tags.XWL_VALUE as poss_id, tags.XWL_VALUE as poss_name

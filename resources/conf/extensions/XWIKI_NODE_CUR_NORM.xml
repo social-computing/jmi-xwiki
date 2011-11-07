@@ -219,15 +219,15 @@
 	</event>
 
         <menu id="menu" font="menuFnt">
-            <item label="Afficher" font="nameFnt" url="javascript:DisplayExtension({sID})" />
-	    <item label="Centrer" font="nameFnt" url="javascript:Discover({sID},{sNAME})" />
+            <item label="Afficher" font="nameFnt" url="javascript:DisplayExtension({sNAME})" />
+	    <item label="Centrer" font="nameFnt" url="javascript:Discover({sID}, {sNAME})" />
             <separator />
-            <item label="[+30sPOSS_NAME]" url="javascript:Discover([sPOSS_ID],[sPOSS_NAME])" />
+            <item label="[+30sPOSS_NAME]" url="javascript:Discover([sPOSS_ID], [sPOSS_NAME])" />
         </menu>
         <font id="menuFnt" name="Monospaced" size="11" style="plain" />
 
 	<!-- DblClkEvt event -->
 	<event id="dblClkEvt">
-            <open url="javascript:DisplayExtension({sID})" />
+            <open url="javascript:DisplayExtension({sNAME})" />
 	</event>
 </swatch>
