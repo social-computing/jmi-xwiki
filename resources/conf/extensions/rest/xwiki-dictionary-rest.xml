@@ -14,14 +14,15 @@
                                 <url-parameter name="media">json</url-parameter>
 			</URL-connection>
 				
-			<REST-entity markup="tags" id="id" >
+			<REST-entity markup="tags" id="name">
 				<REST-property id="name" />
 				<REST-property id="poss_id" attribute="id" />
 				<REST-property id="poss_name" attribute="name" />
 			</REST-entity>
 	
-			<REST-attribute markup="pages" id="id" >
+			<REST-attribute markup="pages" id="id">
 				<REST-property id="name" />
+                                <REST-property id="url" />
 				<REST-property id="poss_id" entity="id" />
 				<REST-property id="poss_name" entity="name" />
 			</REST-attribute>
@@ -43,6 +44,7 @@
 			<attribute-props-mapping>
 				<mapping key="ID" value="id" />
 				<mapping key="NAME" value="name" />
+				<mapping key="URL" value="url" />
 				<mapping key="POSS_ID" value="poss_id" />
 				<mapping key="POSS_NAME" value="poss_name" />
 			</attribute-props-mapping>
@@ -62,6 +64,7 @@
 			<attribute-props-mapping>
 				<mapping key="ID" value="id" />
 				<mapping key="NAME" value="name" />
+				<mapping key="URL" value="url" />
 				<mapping key="POSS_ID" value="poss_id" />
 				<mapping key="POSS_NAME" value="poss_name" />
 			</attribute-props-mapping>
@@ -81,6 +84,7 @@
 			<attribute-props-mapping>
 				<mapping key="ID" value="id" />
 				<mapping key="NAME" value="name" />
+				<mapping key="URL" value="url" />
 				<mapping key="POSS_ID" value="poss_id" />
 				<mapping key="POSS_NAME" value="poss_name" />
 			</attribute-props-mapping>
