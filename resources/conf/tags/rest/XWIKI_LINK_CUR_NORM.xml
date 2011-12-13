@@ -34,10 +34,9 @@
     <event id="clickEvt">
         <popup menu="menu" />
     </event>
-    
     <menu id="menu" font="menuFnt">
         <menu id="submenu" label="[sREC_NAME]" font="menuFnt">
-            <item label="Afficher la page" url="javascript:DisplayExtension([sREC_NAME])" />
+            <item label="Afficher la page" url="_self:[sREC_URL]" />
             <item label="Afficher sur la carte" url="javascript:NewWin([sREC_ID],[sREC_NAME])" />
         </menu>
     </menu>

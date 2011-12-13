@@ -9,21 +9,21 @@
 	<!-- entities definitions (links) -->
 	<entities>
 		<REST-entities name="XWiki Tags Rest" type="json" invert="true">
- 		        <URL-connection>
+	                <URL-connection>
                                 <url>http://www.maka:8080/xwiki/rest/wikis/xwiki/sc/tags</url>
                                 <basic-authentication username="admin" password="admin" />
                                 <url-parameter name="media">json</url-parameter>
 			</URL-connection>
 				
-			<REST-entity markup="tags" id="name" >
+			<REST-entity markup="tags" id="name">
 				<REST-property id="name" />
 				<REST-property id="poss_id" attribute="id" />
 				<REST-property id="poss_name" attribute="name" />
+                                <REST-property id="poss_url" attribute="url" />
 			</REST-entity>
 
-			<REST-attribute markup="pages" id="name" >
+			<REST-attribute markup="pages" id="id">
 				<REST-property id="name" />
-				<REST-property id="title" />
 				<REST-property id="url" />
 				<REST-property id="poss_id" entity="id" />
 				<REST-property id="poss_name" entity="name" />
@@ -40,60 +40,66 @@
 	<analysis-profile name="Profile" attributes-ref="JDBC_Profile" type="personal" attribute-size="frequency" attributes-max="300" attributes-base-max="1000">
 		<props-mapping>
 			<entity-props-mapping>
-				<mapping key="ID"   value="id" />
+				<mapping key="ID" value="id" />
 				<mapping key="NAME" value="name" />
 			</entity-props-mapping>
 			<attribute-props-mapping>
-				<mapping key="ID" 	 value="id" />
-				<mapping key="NAME"      value="name" />
-				<mapping key="TITLE"     value="title" />
-				<mapping key="POSS_ID" 	 value="poss_id" />
+				<mapping key="ID" value="id" />
+				<mapping key="NAME" value="name" />
+				<mapping key="URL" value="url" />
+				<mapping key="POSS_ID" value="poss_id" />
 				<mapping key="POSS_NAME" value="poss_name" />
+                                <mapping key="POSS_URL" value="poss_url" />
 			</attribute-props-mapping>
 		</props-mapping>
-		<entities-recommendation>
-			<mapping key="REC_ID"   value="id" />
+		<entities-recommendation apply="all" max="10" threshold="20">
+			<mapping key="REC_ID" value="id" />
 			<mapping key="REC_NAME" value="name" />
+			<mapping key="REC_URL" value="url" />
 		</entities-recommendation>
 	</analysis-profile>
 
 	<analysis-profile name="DiscoveryProfile" attributes-ref="JDBC_Profile" type="discovery" attribute-size="frequency" attributes-max="80" attributes-base-max="1000" >
 		<props-mapping>
 			<entity-props-mapping>
-				<mapping key="ID" 	value="id" />
+				<mapping key="ID" value="id" />
 				<mapping key="NAME" value="name" />
 			</entity-props-mapping>
 			<attribute-props-mapping>
-				<mapping key="ID" 	value="id" />
+				<mapping key="ID" value="id" />
 				<mapping key="NAME" value="name" />
-				<mapping key="TITLE"     value="title" />				
-				<mapping key="POSS_ID" 	value="poss_id" />
+				<mapping key="URL" value="url" />
+				<mapping key="POSS_ID" value="poss_id" />
 				<mapping key="POSS_NAME" value="poss_name" />
+                                <mapping key="POSS_URL" value="poss_url" />
 			</attribute-props-mapping>
 		</props-mapping>
-		<entities-recommendation>
-			<mapping key="REC_ID"  		value="id" />
-			<mapping key="REC_NAME"  	value="name" />
+		<entities-recommendation apply="all" max="10" threshold="20">
+			<mapping key="REC_ID" value="id" />
+			<mapping key="REC_NAME" value="name" />
+			<mapping key="REC_URL" value="url" />
 		</entities-recommendation>
 	</analysis-profile>
 
 	<analysis-profile name="GlobalProfile" attributes-ref="JDBC_Profile" type="global" attribute-size="same" attributes-max="80" >
 		<props-mapping>
 			<entity-props-mapping>
-				<mapping key="ID" 	value="id" />
+				<mapping key="ID" value="id" />
 				<mapping key="NAME" value="name" />
 			</entity-props-mapping>
 			<attribute-props-mapping>
-				<mapping key="ID" 	value="id" />
+				<mapping key="ID" value="id" />
 				<mapping key="NAME" value="name" />
-				<mapping key="TITLE"     value="title" />
-				<mapping key="POSS_ID" 	value="poss_id" />
+				<mapping key="URL" value="url" />
+				<mapping key="POSS_ID" value="poss_id" />
 				<mapping key="POSS_NAME" value="poss_name" />
+                                <mapping key="POSS_URL" value="poss_url" />
 			</attribute-props-mapping>
 		</props-mapping>
-		<entities-recommendation>
-			<mapping key="REC_ID"  		value="id" />
-			<mapping key="REC_NAME"  	value="name" />
+		<entities-recommendation apply="all" max="10" threshold="20">
+			<mapping key="REC_ID" value="id" />
+			<mapping key="REC_NAME" value="name" />
+			<mapping key="REC_URL" value="url" />
 		</entities-recommendation>
 	</analysis-profile>
 
