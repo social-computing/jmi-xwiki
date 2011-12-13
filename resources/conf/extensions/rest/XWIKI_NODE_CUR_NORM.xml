@@ -219,7 +219,7 @@
 	</event>
 
     <menu id="menu" font="menuFnt">
-        <item label="Afficher" font="nameFnt" url="javascript:DisplayExtension({sNAME})" />
+        <item label="Afficher" font="nameFnt" url="_self:{sURL}" />
         <item label="Centrer" font="nameFnt" url="javascript:Discover({sID}, {sNAME})" />
         <separator />
         <menu id="submenu" label="[+30sPOSS_NAME]" font="menuFnt">
@@ -231,6 +231,6 @@
 
 	<!-- DblClkEvt event -->
 	<event id="dblClkEvt">
-            <open url="javascript:DisplayExtension({sNAME})" />
+            <open url="_self:{sURL}" />
 	</event>
 </swatch>
