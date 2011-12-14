@@ -19,40 +19,17 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.socialcomputing.jmi.jmi-xwiki</groupId>
+    <artifactId>xwiki</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-  <groupId>com.socialcomputing.jmit</groupId>
-  <artifactId>xwiki-jmit</artifactId>
+  <groupId>com.socialcomputing.jmi.jmi-xwiki</groupId>
+  <artifactId>xwiki-extension</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>xar</packaging>
-  <name>xwiki jmit client intergration</name>
-  <url>http://www.social-computing.com/</url>
-  <repositories>
-    <repository>
-      <id>xwiki-releases</id>
-      <name>XWiki Nexus Releases Repository Proxy</name>
-      <url>http://nexus.xwiki.org/nexus/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-  
-  <pluginRepositories>
-    <pluginRepository>
-      <id>xwiki-plugins-releases</id>
-      <name>XWiki Nexus Plugin Releases Repository Proxy</name>
-      <url>http://nexus.xwiki.org/nexus/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
+  <name>Just Map It ! - XWiki extension</name>
   
   <build>
     <extensions>
@@ -72,7 +49,4 @@
       </plugin>
     </plugins>
   </build> 
-  <properties>
-    <xwiki.version>3.1</xwiki.version>
-  </properties>
 </project>

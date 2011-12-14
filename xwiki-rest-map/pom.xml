@@ -24,44 +24,17 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.socialcomputing.xwiki</groupId>
+  <parent>
+    <groupId>com.socialcomputing.jmi.jmi-xwiki</groupId>
+    <artifactId>xwiki</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>com.socialcomputing.jmi.jmi-xwiki</groupId>
   <artifactId>xwiki-rest-map</artifactId>
-  <name>XWiki Rest Api Extension for Just Map It</name>
+  <name>Just Map It ! - XWiki Rest Api Extension for Just Map It</name>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <url>http://www.social-computing.com/</url>
-  <repositories>
-    <repository>
-      <id>xwiki-releases</id>
-      <name>XWiki Nexus Releases Repository Proxy</name>
-      <url>http://nexus.xwiki.org/nexus/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>maven-restlet</id>
-      <name>Public online Restlet repository</name>
-      <url>http://maven.restlet.org</url>
-    </repository>
-  </repositories>
-  
-  <pluginRepositories>
-    <pluginRepository>
-      <id>xwiki-plugins-releases</id>
-      <name>XWiki Nexus Plugin Releases Repository Proxy</name>
-      <url>http://nexus.xwiki.org/nexus/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
   
   <build>
     <plugins>
@@ -110,8 +83,4 @@
       <version>${xwiki.version}</version>
     </dependency>
   </dependencies>
-  
-  <properties>
-    <xwiki.version>3.1</xwiki.version>
-  </properties>
 </project>
