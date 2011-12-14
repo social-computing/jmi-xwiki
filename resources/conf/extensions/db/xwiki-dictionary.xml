@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE dictionary SYSTEM "WPS-dictionary.dtd" >
+
+<dictionary name="xwiki" >
+	<comment>XWiki dictionary</comment>
+	
+	<!-- entities definitions (links) -->
+	<entities>
+		<JDBC-entities name="xwiki entities">
+		        <!-- Source connection configuration -->
+			<JDBC-connection catalog="xwiki" >
+				<JNDI-data-source>
+					<url>java:comp/env/jdbc/xwiki</url>
+				</JNDI-data-source>
+			</JDBC-connection>
+
+                        <!-- Select all entities : get all tags -->
+			<JDBC-default-classifier>
+				<JDBC-query2>
+				SELECT DISTINCT tags.XWL_VALUE FROM 
+                                xwikiobjects as objects
+                                JOIN xwikilistitems as tags
+                                ON objects.XWO_ID = tags.XWL_ID
+                                WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                AND tags.XWL_NAME = 'tags'
+                                </JDBC-query2>
+			</JDBC-default-classifier>
+
+			<!-- Get properties for one entity -->
+			<JDBC-property name="Tag properties" column-name="label">
+				<JDBC-query2>
+				SELECT tags.XWL_VALUE as id, tags.XWL_VALUE as name
+				FROM xwikiobjects as objects
+                                JOIN xwikilistitems as tags
+                                ON objects.XWO_ID = tags.XWL_ID
+                                WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                AND tags.XWL_NAME = 'tags'
+                                AND tags.XWL_VALUE = {scurEntity}
+				</JDBC-query2>
+			</JDBC-property>
+
+                        <!-- Affinity group -->
+			<JDBC-affinity-reader name="JDBC_AffReader">
+        			<comment>Affinity Group : get the tags which share the same extensions as the selected tag (weight = 1)</comment>
+				<JDBC-query2>
+                                SELECT tags.XWL_VALUE, count(tags.XWL_VALUE) FROM xwikilistitems as l
+                                JOIN xwikiobjects as objects
+                                ON objects.XWO_ID = l.XWL_ID
+                                JOIN xwikilistitems as tags
+                                ON l.XWL_ID = tags.XWL_ID
+                                WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                AND l.XWL_NAME = 'tags'
+				AND tags.XWL_NAME = 'tags'
+                                AND l.XWL_VALUE = {s$entityId}
+                                GROUP BY tags.XWL_VALUE
+				</JDBC-query2>
+			</JDBC-affinity-reader>
+
+                        <!-- Discovery group -->
+			<JDBC-affinity-reader name="JDBC_DiscoveryAffReader">
+        			<comment>Discovery Group : for a selected extension get the tags and the number of tags</comment>
+				<JDBC-query2>
+				SELECT XWL_VALUE as tag, 
+                                (
+                                        SELECT count(XWL_VALUE) FROM xwikilistitems as tc
+                                        JOIN xwikiobjects objects
+                                        ON objects.XWO_ID = tc.XWL_ID
+                                        WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                        AND tc.XWL_VALUE = tag 
+                                        AND tc.XWL_NAME='tags'
+                                ) as tag_count 
+                                FROM xwikilistitems 
+                                JOIN xwikiobjects
+                                ON XWO_ID = XWL_ID
+                                WHERE XWO_CLASSNAME = 'XWiki.TagClass'
+                                AND XWL_NAME = 'tags'
+                                AND XWO_ID = {i$attributeId}
+				</JDBC-query2>
+			</JDBC-affinity-reader>
+
+                        <!-- Global group -->
+			<JDBC-affinity-reader name="JDBC_GlobalAffReader">
+			        <comment>Global group : get all tags</comment>
+				<JDBC-query2>
+			                SELECT tags.XWL_VALUE, 1 
+			                FROM xwikiobjects as objects
+                                        JOIN xwikilistitems as tags
+                                        ON objects.XWO_ID = tags.XWL_ID
+                                        WHERE objects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                        AND tags.XWL_NAME = 'tags'
+				</JDBC-query2>
+			</JDBC-affinity-reader>
+	
+	                <!-- Attributes definition (nodes) -->
+			<JDBC-attributes name="JDBC_Profile">
+			        <comment>Attibutes definition : extensions for a selected tags ?</comment>
+				<JDBC-query2>				
+				        SELECT objects.XWO_ID as id, count(objects.XWO_ID)
+                                        FROM xwikiobjects as objects
+                                        JOIN xwikilistitems as tags
+                                        ON objects.XWO_ID = tags.XWL_ID
+                                        JOIN xwikiobjects as tobjects
+                                        ON tags.XWL_ID = tobjects.XWO_ID
+                                        WHERE tags.XWL_NAME = 'tags'
+                                        AND tobjects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                        AND tags.XWL_VALUE = {scurEntity}
+                                        GROUP BY id
+				</JDBC-query2>
+				
+				<JDBC-property name="Attribute properties" column-name="label">
+				        <comment>Attribute properties : list of all properties for an extension</comment>
+					<JDBC-query2>
+					SELECT XWO_ID as id, SUBSTRING(XWO_NAME FROM 11) as name
+                                        FROM xwikiobjects
+                                        WHERE XWO_ID = {icurAttribute}
+					</JDBC-query2>
+				</JDBC-property>
+
+				<JDBC-property name="Belong to properties" multiple-rows="yes" column-name="label">
+        				<comment>Attribute properties : list of all tags for an extension</comment>
+					<JDBC-query2>
+                                        SELECT tags.XWL_VALUE as poss_id, tags.XWL_VALUE as poss_name
+                                        FROM xwikilistitems as tags
+                                        JOIN xwikiobjects as tobjects
+                                        ON tobjects.XWO_ID = tags.XWL_ID
+                                        WHERE tobjects.XWO_CLASSNAME = 'XWiki.TagClass'
+                                        AND tags.XWL_NAME = 'tags'
+                                        AND tobjects.XWO_ID = {icurAttribute}
+					</JDBC-query2>
+				</JDBC-property>
+			</JDBC-attributes>
+		</JDBC-entities>
+	</entities>
+	
+	<env-property name="$web_context" value="/wps" />
+	
+	<affinity-reader-profile name="AffReader" affinity-reader-ref="JDBC_AffReader" threshold="100" />
+	<affinity-reader-profile name="DiscoveryAffReader" affinity-reader-ref="JDBC_DiscoveryAffReader" threshold="100" />
+	<affinity-reader-profile name="GlobalAffReader" affinity-reader-ref="JDBC_GlobalAffReader" threshold="100" />
+
+	<analysis-profile name="Profile" attributes-ref="JDBC_Profile" type="personal" attribute-size="frequency" attributes-max="40" attributes-base-max="60" cluster="yes" cluster-level="100" cluster-threshold="15" cluster-type="size" attributes-cluster-max="5" balanced-effect="0" entities-max="100" attr-link-threshold="10" links-attribute-threshold="3">
+		<props-mapping>
+			<entity-props-mapping>
+				<mapping key="ID" value="id" />
+				<mapping key="NAME" value="name" />
+			</entity-props-mapping>
+			<attribute-props-mapping>
+				<mapping key="ID" value="id" />
+				<mapping key="NAME" value="name" />
+				<mapping key="POSS_ID" value="poss_id" />
+				<mapping key="POSS_NAME" value="poss_name" />
+			</attribute-props-mapping>
+		</props-mapping>
+		<entities-recommendation>
+			<mapping key="REC_ID"   value="id" />
+			<mapping key="REC_NAME" value="name" />
+		</entities-recommendation>
+	</analysis-profile>
+
+        <analysis-profile name="DiscoveryProfile" attributes-ref="JDBC_Profile" type="discovery" attribute-size="frequency" attributes-max="40" attributes-base-max="60" cluster="yes" cluster-level="100" cluster-threshold="15" cluster-type="size" attributes-cluster-max="5" balanced-effect="0" entities-max="100" attr-link-threshold="10" links-attribute-threshold="3">
+		<props-mapping>
+			<entity-props-mapping>
+				<mapping key="ID" value="id" />
+				<mapping key="NAME" value="name" />
+			</entity-props-mapping>
+			<attribute-props-mapping>
+				<mapping key="ID" value="id" />
+				<mapping key="NAME" value="name" />
+				<mapping key="POSS_ID" value="poss_id" />
+				<mapping key="POSS_NAME" value="poss_name" />
+			</attribute-props-mapping>
+		</props-mapping>
+		<entities-recommendation>
+			<mapping key="REC_ID"   value="id" />
+			<mapping key="REC_NAME" value="name" />
+		</entities-recommendation>
+	</analysis-profile>
+
+	<analysis-profile name="GlobalProfile" attributes-ref="JDBC_Profile" type="global" attribute-size="same" attributes-max="40" cluster="yes" cluster-level="100" cluster-threshold="15" cluster-type="size" attributes-cluster-max="5" balanced-effect="0" entities-max="100" attributes-base-max="60" attr-link-threshold="10" links-attribute-threshold="4">
+		<props-mapping>
+			<entity-props-mapping>
+				<mapping key="ID" value="id" />
+				<mapping key="NAME" value="name" />
+			</entity-props-mapping>
+			<attribute-props-mapping>
+				<mapping key="ID" value="id" />
+				<mapping key="NAME" value="name" />
+				<mapping key="POSS_ID" value="poss_id" />
+				<mapping key="POSS_NAME" value="poss_name" />
+			</attribute-props-mapping>
+		</props-mapping>
+		<entities-recommendation apply="all" max="10" threshold="20">
+			<mapping key="REC_ID" value="id" />
+			<mapping key="REC_NAME" value="name" />
+		</entities-recommendation>
+	</analysis-profile>
+
+	<display-profile name="Display" display-empty-links="no" in-color="ffffff" out-color="0" filter-color="56b2ff">
+		<swatch-segmentation>
+			<attribute-swatch>
+				<norm-swatch default-ref="XWIKI_NODE_NORM" />
+				<ref-swatch default-ref="XWIKI_NODE_REF" />
+				<active-norm-swatch default-ref="XWIKI_NODE_CUR_NORM" />
+				<active-ref-swatch default-ref="XWIKI_NODE_CUR_REF" />
+			</attribute-swatch>
+			<link-swatch>
+				<norm-swatch default-ref="XWIKI_LINK_NORM" />
+				<ref-swatch default-ref="XWIKI_LINK_REF" />
+				<active-norm-swatch default-ref="XWIKI_LINK_CUR_NORM" />
+				<active-ref-swatch default-ref="XWIKI_LINK_CUR_REF" />
+			</link-swatch>
+		</swatch-segmentation>
+		<selection-swatch name="search" />
+	</display-profile>
+
+	<display-profile name="GlobalDisplay" display-empty-links="no" display-fake-links="no" in-color="ffffff" out-color="0" filter-color="56b2ff">
+		<swatch-segmentation>
+			<attribute-swatch>
+				<norm-swatch default-ref="XWIKI_NODE_NORM" />
+				<ref-swatch default-ref="XWIKI_NODE_REF" />
+				<active-norm-swatch default-ref="XWIKI_NODE_CUR_NORM" />
+				<active-ref-swatch default-ref="XWIKI_NODE_CUR_REF" />
+			</attribute-swatch>
+			<link-swatch>
+				<norm-swatch default-ref="XWIKI_LINK_NORM" />
+				<ref-swatch default-ref="XWIKI_LINK_REF" />
+				<active-norm-swatch default-ref="XWIKI_LINK_CUR_NORM" />
+				<active-ref-swatch default-ref="XWIKI_LINK_CUR_REF" />
+			</link-swatch>
+		</swatch-segmentation>
+		<selection-swatch name="search" />
+	</display-profile>
+
+	<segmentation>
+		<analysis-segmentation default-ref="Profile" />
+		<affinity-reader-segmentation default-ref="AffReader">
+			<affreader-analysis-mapping analysis-ref="DiscoveryProfile" default-ref="DiscoveryAffReader" />
+			<affreader-analysis-mapping analysis-ref="GlobalProfile" default-ref="GlobalAffReader" />
+		</affinity-reader-segmentation>
+		<display-segmentation default-ref="Display">
+			<display-analysis-mapping analysis-ref="GlobalProfile" default-ref="GlobalDisplay" />
+		</display-segmentation>
+	</segmentation>
+</dictionary>
