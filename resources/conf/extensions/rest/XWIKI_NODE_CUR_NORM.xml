@@ -207,24 +207,29 @@
 				isFloating="false"/>
 
 	<!-- Hover event -->
-	<event 	        id="hoverEvt">
-		<show       status="Cliquez pour afficher le menu de '{sNAME}'. Double-cliquez pour afficher sa fiche."/>
+	<event id="hoverEvt">
+		<show status="Clic here to display '{sNAME}' menu. Double clic to go directly to the extension description" />
 		<!--pop        tooltip="tooltip"/-->
 	</event>
-
 
 	<!-- Click event -->
 	<event id="clickEvt">
             <popup menu="menu"/>
 	</event>
 
+
+	<!-- Click event -->
+	<event id="clickEvt">
+            <popup menu="menu" />
+	</event>
+
     <menu id="menu" font="menuFnt">
-        <item label="Afficher" font="nameFnt" url="_self:{sURL}" />
-        <item label="Centrer" font="nameFnt" url="javascript:Discover({sID}, {sNAME})" />
+        <item label="Display the description" font="nameFnt" url="_self:{sURL}" />
+        <item label="Center on this item" font="nameFnt" url="javascript:Discover({sID}, {sNAME})" />
         <separator />
         <menu id="submenu" label="[+30sPOSS_NAME]" font="menuFnt">
-            <item label="Afficher la page" url="javascript:DisplayTag([sPOSS_NAME])" />
-            <item label="Afficher sur la carte" url="javascript:NewWin([sPOSS_ID], [sPOSS_NAME])" />
+            <item label="Display the tag's page" url="javascript:DisplayTag([sPOSS_NAME])" />
+            <item label="Highlight on the map" url="javascript:NewWin([sPOSS_ID], [sPOSS_NAME])" />
         </menu>
     </menu>
     <font id="menuFnt" name="Monospaced" size="11" style="plain" />

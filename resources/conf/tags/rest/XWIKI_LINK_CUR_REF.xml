@@ -23,10 +23,10 @@
     <tooltip id="tooltip" delay="0" length="3000">
         <tip font="tipFnt" label="[/20sREC_NAME]" inCol="255 255 223" textCol="0" align="center" isFloating="true" blur="-1" rounded="-1" dir="SW" isCorner="false" />
     </tooltip>
-
+    
     <!-- Hover event -->
     <event id="hoverEvt">
-        <show status="Click to show this link menu" />
+        <show status="Click to show this link's menu" />
         <pop tooltip="tooltip" />
     </event>
 
@@ -37,8 +37,8 @@
 
     <menu id="menu" font="menuFnt">
         <menu id="submenu" label="[sREC_NAME]" font="menuFnt">
-            <item label="Afficher la page" url="_self:[sREC_URL]" />
-            <item label="Afficher sur la carte" url="javascript:NewWin([sREC_ID],[sREC_NAME])" />
+            <item label="Display the description" url="_self:[sREC_URL]" />
+            <item label="Center on the map" url="javascript:NewWin([sREC_ID],[sREC_NAME])" />
         </menu>
     </menu>
 

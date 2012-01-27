@@ -207,24 +207,22 @@
 				isFloating="false"/>
 
 	<!-- Hover event -->
-	<event 	        id="hoverEvt">
-		<show       status="Cliquez pour afficher le menu de '{sNAME}'. Double-cliquez pour afficher sa fiche."/>
-		<!--pop        tooltip="tooltip"/-->
+	<event id="hoverEvt">
+		<show status="Click to show this node's menu" />
 	</event>
-
 
 	<!-- Click event -->
 	<event id="clickEvt">
-            <popup menu="menu"/>
+            <popup menu="menu" />
 	</event>
 	
         <menu id="menu" font="menuFnt">
-            <item label="Afficher" font="nameFnt" url="javascript:DisplayTag({sID},{sNAME})" />
-	    <item label="Centrer" font="nameFnt" url="javascript:Discover({sID},{sNAME})" />
+            <item label="Display the description" font="nameFnt" url="javascript:DisplayTag({sID},{sNAME})" />
+	    <item label="Center on this item" font="nameFnt" url="javascript:Discover({sID},{sNAME})" />
             <separator />
             <menu id="submenu" label="[+30sPOSS_NAME]" font="menuFnt">
-                <item label="Afficher la page" url="_self:[sPOSS_URL]" />
-                <item label="Afficher sur la carte" url="javascript:NewWin([sPOSS_ID],[sPOSS_NAME])" />
+                <item label="Display the extension's page" url="_self:[sPOSS_URL]" />
+                <item label="Highlight on the map" url="javascript:NewWin([sPOSS_ID],[sPOSS_NAME])" />
             </menu>
         </menu>
         <font id="menuFnt" name="Monospaced" size="11" style="plain" />

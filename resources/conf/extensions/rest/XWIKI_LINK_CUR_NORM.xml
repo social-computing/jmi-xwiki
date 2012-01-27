@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
-
 <!DOCTYPE swatch SYSTEM "swatch.dtd">
 
 <swatch name="XWIKI_LINK_CUR_NORM">
@@ -26,7 +25,7 @@
 
     <!-- Hover event -->
     <event id="hoverEvt">
-        <show status="Cliquer pour afficher le menu associé à ce lien" />
+        <show status="Clic here to display the link's menu" />
         <pop tooltip="tooltip" />
     </event>
    
@@ -34,11 +33,11 @@
     <event id="clickEvt">
         <popup menu="menu" />
     </event>
-    
+
     <menu id="menu" font="menuFnt">
         <menu id="submenu" label="[sREC_NAME]" font="menuFnt">
-            <item label="Afficher la page" url="javascript:DisplayTag([sREC_ID],[sREC_NAME])" />
-            <item label="Afficher sur la carte" url="javascript:NewWin([sREC_ID],[sREC_NAME])" />
+            <item label="Display the description" url="javascript:DisplayTag([sREC_ID],[sREC_NAME])" />
+            <item label="Highlight on the map" url="javascript:NewWin([sREC_ID],[sREC_NAME])" />
         </menu>
     </menu>
     
