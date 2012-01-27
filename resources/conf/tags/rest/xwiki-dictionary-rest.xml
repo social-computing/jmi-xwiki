@@ -10,7 +10,7 @@
 	<entities>
 		<REST-entities name="XWiki Tags Rest" type="json" invert="true">
 	                <URL-connection>
-                                <url>http://www.maka:8080/xwiki/rest/wikis/xwiki/sc/tags</url>
+                                <url>http://dev.social-computing.com:8280/xwiki/rest/wikis/xwiki/sc/tags</url>
                                 <basic-authentication username="admin" password="admin" />
                                 <url-parameter name="media">json</url-parameter>
 			</URL-connection>
