@@ -48,12 +48,11 @@ import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 
 /**
- * Xwiki extended tags Rest service
- * <p>
- * This Rest service exposes the set of tags used on all the wiki pages. Each
- * tag returns the list of pages on which the tag is set
- * </p>
- * 
+ * Specific REST Service for Just Map It! dynamic map software.
+ * See http://www.social-computing.com and http://www.just-map-it.com
+ * for more information.
+ *
+ * @author Jonathan Dray <jonathan@social-computing.com>
  * @version $Id$
  */
 @Component
@@ -68,6 +67,16 @@ public class XWikiTagsResource extends XWikiResource {
     @Named("currentmixed")
     private DocumentReferenceResolver<String> resolver;
 
+    /**
+     * <p>This Rest service exposes the set of tags used on all the wiki pages. Each
+     * tag returns the list of pages on which the tag is set.</p>
+     * <p>Instead of displaying the page information under each tag, only the page id is given of each tag.
+     * After all the tags have been listed, the pages with the page_id and additional information are displayed.</p> 
+     *
+     * @param space  A Wiki space, read from the query parameters and injected
+     * @param wiki   Name of the wiki, read from the query parameters and injected
+     * @return       a <code>TagsResponse</code> with the list of tags and pages found, that will be serialized as a JSON or XML.
+     */
     @GET
     public TagsResponse getTags(@QueryParam("space") String space, @PathParam("wikiName") String wiki)
             throws XWikiException, QueryException {
@@ -87,7 +96,7 @@ public class XWikiTagsResource extends XWikiResource {
                     + "where obj.className='XWiki.TagClass' and obj.id=prop.id.id and prop.id.name='tags' "
                     + "and doc.fullName = obj.name";
             if (!StringUtils.isEmpty(space)) {
-                // TODO: escape!
+                // TODO: escape! (Use parametrized HQL queries to avoid sql injections)
                 query = query + " and doc.space = " + space;
             }
             
@@ -126,6 +135,7 @@ public class XWikiTagsResource extends XWikiResource {
             }
             return response;
         }
+        // Restore database value to the one that was set before our query
         finally {
             xcontext.setDatabase(database);
         }
