@@ -1,13 +1,11 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
-
 <!DOCTYPE swatch SYSTEM "swatch.dtd">
 
-<swatch             name="XWIKI_LINK_CUR_REF">
-
+<swatch name="XWIKI_LINK_CUR_REF">
     <!-- Base Satellite definition -->
-    <sat shape="edgeShp" hover="hoverEvt" click="clickEvt" 
+    <sat shape="edgeShp" hover="hoverEvt" click="clickEvt"
          isBack="true" isVisible="true" isSuper="true" isSub="false" isCur="false" isRest="true" isTip="false" isNoSided="false">
-        <slice inCol="86 178 255" outCol="0 102 204" alpha="1" linewidth="1" />
+        <slice inCol="238 242 245" outCol="255 157 0" alpha="1" linewidth="1" />
     </sat>
 
     <sat shape="edgeShp" selection="search"
@@ -18,12 +16,12 @@
     <!-- References -->
     <font id="tipFnt" name="SansSerif" size="12" style="plain" />
     <font id="fixedFnt" name="Monospaced" size="12" style="plain" />
-    <shape id="edgeShp" scale="1" anchor="intersect"></shape>
+    <shape id="edgeShp" scale="1" anchor="intersect" />
 
     <tooltip id="tooltip" delay="0" length="3000">
-        <tip font="tipFnt" label="[/20sREC_NAME]" inCol="255 255 223" textCol="0" align="center" isFloating="true" blur="-1" rounded="-1" dir="SW" isCorner="false" />
+        <tip font="tipFnt" label="[/20sREC_NAME]" inCol="255 255 255" outCol="255 157 0" textCol="0 85 119" align="center" isFloating="true" blur="-1" rounded="10" dir="SW" isCorner="false" />
     </tooltip>
-    
+
     <!-- Hover event -->
     <event id="hoverEvt">
         <show status="Click to show this link's menu" />
