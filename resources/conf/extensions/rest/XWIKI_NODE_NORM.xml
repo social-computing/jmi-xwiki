@@ -1,37 +1,36 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
-
 <!DOCTYPE swatch SYSTEM "swatch.dtd">
 
 <swatch name="XWIKI_NODE_NORM" title="{sNAME}">
-
     <!-- Base Satellite definition -->
     <sat shape="diskShp" transfo="baseTrf" isBack="true" isVisible="true" isSuper="true" isSub="false" isCur="false" isRest="true" isTip="false" isNoSided="false">
-        <slice inCol="100 100 100" outCol="56 56 56" alpha="1" linewidth="1" />
-        <slice inCol="255 255 255" outCol="56 56 56" alpha="1" linewidth="1">
+        <slice inCol="255 157 0" outCol="238 242 245" alpha="1" linewidth="1" />
+        <slice inCol="238 242 245" outCol="238 242 245" alpha="1" linewidth="1">
             <transfo scale=".87" map="absolute" />
         </slice>
-    </sat>
+    </sat>    
 
     <!-- Sub Spots -->
     <sat shape="diskShp" isSub="true" isSuper="false" isVisible="true" isCur="false" isRest="true" isBack="false" isTip="false" isNoSided="false">
-        <slice inCol="164 164 164" outCol="100 100 100" transfo="spotTrf" alpha="1" linewidth="1" />
-    </sat>
+        <slice inCol="2 139 205" outCol="238 242 245" transfo="spotTrf" alpha="1" linewidth="1" />
+    </sat>    
 
     <!-- Super Spot -->
     <sat shape="diskShp" isVisible="true" isSuper="true" isSub="false" isCur="false" isRest="true" isBack="false" isTip="false" isNoSided="false">
-        <slice inCol="164 164 164" outCol="100 100 100" transfo="spotTrf" alpha="1" linewidth="1" />
-    </sat>
+        <slice inCol="2 139 205" outCol="238 242 245" transfo="spotTrf" alpha="1" linewidth="1" />
+    </sat>    
 
     <!-- Title -->
     <sat shape="voidShp" transfo="titleTrf" isSub="true" isSuper="true" isTip="true" isVisible="true" isCur="false" isRest="true" isBack="false" isNoSided="false">
         <slice alpha="1" linewidth="1">
-            <tip font="selFnt" label="{+20sNAME}" textCol="@blackCol" rounded="10" isCorner="true" blur="-1" dir="SW" align="left" isFloating="false" />
+            <tip font="selFnt" label="{+20.1sNAME}" textCol="0 85 119" rounded="10" isCorner="true" blur="-1" dir="SW" align="left" isFloating="false" />
         </slice>
     </sat>
 
-    <sat shape="voidShp" selection="search" transfo="titleTrf" isSub="true" isVisible="true" isSuper="true" isCur="false" isRest="true" isBack="false" isTip="false" isNoSided="false">
+    <sat shape="voidShp" selection="search" transfo="titleTrf" 
+         isSub="true" isVisible="true" isSuper="true" isCur="false" isRest="true" isBack="false" isTip="false" isNoSided="false">
         <slice alpha="1" linewidth="1">
-            <tip font="selFnt" label="{+20sNAME}" inCol="255 0 0" textCol="@whiteCol" isCorner="true" blur="-1" rounded="-1" dir="SW" align="left" isFloating="false" />
+            <tip font="selFnt" label="{+20.1sNAME}" inCol="255 0 0" textCol="@whiteCol" isCorner="true" blur="-1" rounded="-1" dir="SW" align="left" isFloating="false" />
         </slice>
     </sat>
 
@@ -45,10 +44,8 @@
     <color id="hLinkLitCol" rgb="191 191 255" />
 
     <shape id="voidShp" scale="0" anchor="center" />
-    <shape id="diskShp" scale="1" anchor="center">
-    </shape>
-    <shape id="spotShp" scale="0.2" anchor="center">
-    </shape>
+    <shape id="diskShp" scale="1" anchor="center" />
+    <shape id="spotShp" scale="0.2" anchor="center" />
 
     <font id="nameFnt" name="SansSerif" size="11" style="bold" />
     <font id="titleFnt" name="SansSerif" size="11" style="plain" />
@@ -66,6 +63,6 @@
         <polar dir="0" rad="1.4" />
     </transfo>
 
-    <tip id="textTip" font="nameFnt" label="{+sNAME}" textCol="@blackCol" isCorner="true" blur="-1" rounded="-1" dir="SW" align="left" isFloating="false" />
-					
+    <tip id="textTip" font="nameFnt" label="{+sNAME}" textCol="@blackCol"
+         isCorner="true" blur="-1" rounded="-1" dir="SW" align="left" isFloating="false" />			
 </swatch>

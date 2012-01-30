@@ -1,13 +1,11 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
-
 <!DOCTYPE swatch SYSTEM "swatch.dtd">
 
 <swatch name="XWIKI_LINK_NORM">
-
     <!-- Base Satellite definition -->
     <sat shape="edgeShp" transfo="noTrf"
          isBack="true" isVisible="true" isSuper="true" isSub="false" isCur="false" isRest="true" isTip="false" isNoSided="false">
-        <slice inCol="100 100 100" outCol="56 56 56" alpha="1" linewidth="1" />
+        <slice inCol="143 196 239" outCol="238 242 245" alpha="1" linewidth="1" />
     </sat>
 
     <!-- General purpose Selection -->
@@ -18,13 +16,9 @@
     </sat>
 
     <!-- References -->
-    <shape id="edgeShp" scale="1" anchor="center">
-        <!--point      x="0" y="0"/>
-        <point      x="1" y="0"/-->
-    </shape>
-
+    <shape id="edgeShp" scale="1" anchor="center" />
     <shape id="voidShp" scale="0" anchor="center" />
-
+    
     <transfo id="selTrf" map="interpol" scale="0">
         <polar dir="0" rad="1.4" />
     </transfo>
