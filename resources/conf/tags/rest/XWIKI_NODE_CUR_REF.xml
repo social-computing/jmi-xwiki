@@ -97,7 +97,7 @@
 
     <menu id="menu" font="menuFnt">
         <item label="Display the description" font="nameFnt" url="javascript:DisplayTag({sID},{sNAME})" />
-	<item label="Center on this item" font="nameFnt" url="javascript:Discover({sID},{sNAME})" />
+        <item label="Center on this item" font="nameFnt" url="javascript:Discover({sID},{sNAME})" />
         <separator />
         <menu id="submenu" label="[+30sPOSS_NAME]" font="menuFnt">
             <item label="Display the extension's page" url="_self:[sPOSS_URL]" />

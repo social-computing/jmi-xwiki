@@ -9,10 +9,11 @@
     <entities>
         <REST-entities name="XWiki Rest" type="json" invert="false">
             <URL-connection type="GET">
-                <url>{$xwikiurl}</url>
-                <basic-authentication username="{$xwikilogin}" password="{$xwikipassword}" />
-                <url-parameter name="media">json</url-parameter>
-            </URL-connection>	
+                <url>http://xwiki.just-map-it.com/rest/sites/site.json</url>
+                <url-parameter name="url">{$xwikiurl}</url-parameter>
+                <url-parameter name="login">{$xwikilogin}</url-parameter>
+                <url-parameter name="password">{$xwikipassword}</url-parameter>
+			</URL-connection>
             <REST-entity markup="tags" id="name">
                 <REST-property id="name" />
                 <REST-property id="poss_id" attribute="id" />
