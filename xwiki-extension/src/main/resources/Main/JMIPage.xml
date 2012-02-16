@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1319720544000</creationDate>
-<date>1327944523000</date>
-<contentUpdateDate>1327944523000</contentUpdateDate>
-<version>11.4</version>
+<date>1329348992000</date>
+<contentUpdateDate>1329348992000</contentUpdateDate>
+<version>3.1</version>
 <title>JMIPage</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -9039,32 +9039,6 @@ function DisplayTag(args) {
 function DisplayExtension(args) {
     var redirectUrl = '/' + XWiki.webapppath + XWiki.servletpath + 'view/Extension/' + encodeURIComponent(args[0]);
     window.location.href = redirectUrl;
-}
-
-/**
- * Function called when a user focus on a node 
- * Get a new map with the selected element centered
- * 
- * @param args {array} arguments array, here only one argument is used, the selected node id (either a tag or an extenstion)
- */
-function Discover(args) {
-    var parameters = {};
-    parameters["attributeId"] = args[0];
-    parameters["analysisProfile"] = "DiscoveryProfile";
-    getMap().compute(parameters);
-}
-
-/**
- * Function called when a user focus on a link
- * Get a new map with the selected element highlighted
- * 
- * @param args {array} arguments array, here only one argument is used, the selected link id (either a tag or an extenstion)
- *
-function NewWin(args) {
-    var parameters = {};
-    parameters["entityId"] = args[0];
-    parameters["analysisProfile"] = "AnalysisProfile";
-    getMap().compute(parameters);	
 }</code>
 </property>
 <property>
@@ -9207,11 +9181,51 @@ function NewWin(args) {
      */
     function getMap() {
         if (navigator.appName.indexOf("Microsoft") !=-1) {
-            return window["wps-flex"];
+            return window["jmi-flex"];
         }
         else {
-            return document["wps-flex"];
+            return document["jmi-flex"];
         }
+    }
+
+    /**
+     * Function called when a user focus on a node 
+     * Get a new map with the selected element centered
+     * 
+     * @param args {array} arguments array, here only one argument is used, the selected node id (either a tag or an extenstion)
+     */
+    function Discover(args) {
+        var parameters = {};
+        parameters["attributeId"] = args[0];
+        parameters["analysisProfile"] = "DiscoveryProfile";
+        parameters["xwikiurl"] = "$xcontext.macro.params.xwikiurl";
+        #if($xcontext.macro.params.xwikilogin)
+            parameters["xwikilogin"] = "$xcontext.macro.params.xwikilogin";
+        #end
+        #if($xcontext.macro.params.xwikipassword)
+            parameters["xwikipassword"] = "$xcontext.macro.params.xwikipassword";
+        #end
+        getMap().compute(parameters);
+    }
+ 
+    /**
+     * Function called when a user focus on a link
+     * Get a new map with the selected element highlighted
+     * 
+     * @param args {array} arguments array, here only one argument is used, the selected link id (either a tag or an extenstion)
+     */
+    function NewWin(args) {
+        var parameters = {};
+        parameters["entityId"] = args[0];
+        parameters["analysisProfile"] = "AnalysisProfile";
+        parameters["xwikiurl"] = "$xcontext.macro.params.xwikiurl";
+        #if($xcontext.macro.params.xwikilogin)
+            parameters["xwikilogin"] = "$xcontext.macro.params.xwikilogin";
+        #end
+        #if($xcontext.macro.params.xwikipassword)
+            parameters["xwikipassword"] = "$xcontext.macro.params.xwikipassword";
+        #end
+        getMap().compute(parameters);	
     }
 
     var swfVersionStr = "10.0.0";
